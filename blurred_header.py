@@ -10,7 +10,7 @@ class BlurView(QTextBrowser):
     def __init__(self):
         super().__init__()
         self.capturing = True
-        self.blur = self.grab(QRect(0, 0, self.width(), self.height()))
+        self.blur = None
         self.blur_tmp = QLabel()
         self.blur_tmp.setScaledContents(True)
         self.blur_effect = QGraphicsBlurEffect()
@@ -18,7 +18,8 @@ class BlurView(QTextBrowser):
         self.blur_effect.setBlurHints(QGraphicsBlurEffect.AnimationHint)
         self.blur_tmp.setGraphicsEffect(self.blur_effect)
         self.capturing = False
-        self.repaint()
+        self.update_effect()
+        self.verticalScrollBar().valueChanged.connect(self.update_effect)
 
     def resizeEvent(self, e):
         super().resizeEvent(e)
@@ -35,20 +36,18 @@ class BlurView(QTextBrowser):
             if not self.capturing:
                 # repeatedly draw the blurred pixmap (to make It opaque)
                 try:
-                    for i in range(32):
+                    for i in range(20):
                         painter.drawPixmap(QRect(0, 0, self.width(), 64), self.blur, QRect(0, 0, self.width(), 64))
                 except:
                     pass
                 painter.setPen(Qt.NoPen)
 
                 # draw a white transparent rectangle
-                painter.setBrush(QBrush(QColor(255, 255, 255, 50)))
+                painter.setBrush(QBrush(QColor(255, 255, 255, 100)))
                 painter.drawRect(0, 0, self.width(), 64)
             painter.end()
 
-    def wheelEvent(self, e):
-        # handle default scroll event
-        super().wheelEvent(e)
+    def update_effect(self):
         # disable drawing of the blurred header
         self.capturing = True
         # capture a screenshot of the widget
@@ -91,4 +90,3 @@ if __name__ == "__main__":
 
     # enter main loop
     sys.exit(app.exec_())
- 
