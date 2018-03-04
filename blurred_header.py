@@ -15,10 +15,11 @@ class BlurView(QTextBrowser):
         self.blur_tmp.setScaledContents(True)
         self.blur_effect = QGraphicsBlurEffect()
         self.blur_effect.setBlurRadius(64)
-        self.blur_effect.setBlurHints(QGraphicsBlurEffect.AnimationHint)
+        self.blur_effect.setBlurHints(QGraphicsBlurEffect.PerformanceHint)
         self.blur_tmp.setGraphicsEffect(self.blur_effect)
         self.capturing = False
         self.update_effect()
+        self.setMouseTracking(True)
         self.verticalScrollBar().valueChanged.connect(self.update_effect)
 
     def resizeEvent(self, e):
@@ -28,23 +29,53 @@ class BlurView(QTextBrowser):
         except:
             pass
 
+    def mouseReleaseEvent(self, e):
+        super().mouseReleaseEvent(e)
+        self.update_effect()
+
+    def mousePressEvent(self, e):
+        super().mouseReleaseEvent(e)
+        self.update_effect()
+
+    def mouseMoveEvent(self, e):
+        super().mouseReleaseEvent(e)
+        if e.buttons() == Qt.LeftButton:
+            self.update_effect()
+
     def paintEvent(self, e):
         super().paintEvent(e)
         painter = QPainter()
 
         if painter.begin(self.viewport()):
+            # enable antialiasing
+            painter.setRenderHint(QPainter.Antialiasing)
+
             if not self.capturing:
+                painter.setPen(Qt.NoPen)
+                painter.setBrush(QBrush(QColor(255, 255, 255)))
+                painter.drawRect(0, 0, self.width(), 64)
                 # repeatedly draw the blurred pixmap (to make It opaque)
                 try:
-                    for i in range(20):
+                    for i in range(3):
                         painter.drawPixmap(QRect(0, 0, self.width(), 64), self.blur, QRect(0, 0, self.width(), 64))
                 except:
                     pass
-                painter.setPen(Qt.NoPen)
 
                 # draw a white transparent rectangle
-                painter.setBrush(QBrush(QColor(255, 255, 255, 100)))
+                painter.setBrush(QBrush(QColor(255, 255, 255, 50)))
                 painter.drawRect(0, 0, self.width(), 64)
+
+                # draw border
+                painter.setBrush(QBrush(QColor(150, 150, 150, 100)))
+                painter.drawRect(0, 63, self.width(), 1)
+
+                # draw some text over it
+                painter.setPen(QPen(QColor(30, 30, 30, 150)))
+                a = painter.font()
+                a.setPointSize(13)
+                painter.setFont(a)
+                painter.drawText(QRect(0, 0, self.width(), 64), Qt.AlignCenter, "Blurred Header")
+
             painter.end()
 
     def update_effect(self):
@@ -75,10 +106,14 @@ class BlurWindow(QMainWindow):
             s = 1 + floor(random() * 5)
             text = "Some Text"
             self.browser.insertHtml("<h{} style=color:rgb({},{},{})>{}</h{}>".format(s, r, g, b, text, s))
-        self.setMinimumSize(300, 300)
+
+        # set window properties
+        self.setMinimumSize(300, 480)
         self.setCentralWidget(self.browser)
+        self.setWindowTitle("iOS 7 - style blur experiment")
         # show
         self.show()
+        self.browser.verticalScrollBar().setValue(0)
 
 
 if __name__ == "__main__":
