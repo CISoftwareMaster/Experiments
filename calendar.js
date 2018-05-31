@@ -1,3 +1,12 @@
+function animated_scroll(y, target, speed)
+{
+    if ((speed > 0 ? y < target : y > target))
+    {
+        window.scroll(0, y);
+        setTimeout(`animated_scroll(${y + speed}, ${target}, ${speed})`, 0);
+    }
+}
+
 window.onload = function(e)
 {
     // get reference to our Calendar wrapper node
@@ -8,6 +17,9 @@ window.onload = function(e)
     var message_title = document.getElementById("mboxTitle");
     var message_body = document.getElementById("mboxBody");
     var overlay = document.getElementById("overlay");
+
+    // have we generated a calendar yet?
+    var cal_generated = false;
 
     // a list containing our month names
     month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -96,6 +108,8 @@ window.onload = function(e)
         // apply our constraints
         if (start_date >= end_date || end_date < 1001 || start_date < 1000)
         {
+            // reset our generation status
+            cal_generated = false;
             // show warning
             show_message("Error", "You have set an invalid date range");
             // cancel operations
@@ -180,6 +194,7 @@ window.onload = function(e)
                         (day == date.getDate()) &&
                         (year == (1900 + date.getYear()))))
                     {
+                        day_element.setAttribute("id", "today");
                         day_element.classList.add("today");
                     }
 
@@ -196,6 +211,42 @@ window.onload = function(e)
 
         // insert our generated calendar to the calendar wrapper node
         calwrap.appendChild(calendar);
+
+        // update our generation status
+        cal_generated = true;
+    };
+
+    // handle today view focus
+    document.getElementById("todayBtn").onclick = function(e)
+    {
+        // check if we have generated a calendar yet
+        if (cal_generated)
+        {
+            // check if the "today" item exists in our calendar
+            if (document.getElementById("today"))
+            {
+                // get its reference
+                var todayref = document.getElementById("today");
+
+                // scroll to it
+                var position = todayref.getBoundingClientRect();
+                var speed = 256;
+                animated_scroll(window.scrollY,
+                                window.scrollY + position.y - 256,
+                                (position.y > 0 ? speed : -speed));
+
+                console.log(position.y)
+            }
+            else
+            {
+                show_message("Error", "Your calendar's range does not include today's date.");
+            }
+        }
+        else
+        {
+            // show error
+            show_message("Error", "You must create a calendar first!");
+        }
     };
 
     // handle message box dismissal
