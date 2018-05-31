@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="en-gb">
+    <head>
+        <title>Calendar Generator</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link href="calendar.css" rel="stylesheet" />
+        <script src="calendar.js"></script>
+    </head>
+    <body>
+        <!-- our message box -->
+        <div id="messageBox" class="flow-vert">
+            <div class="cell mbox-header">
+                <span id="mboxTitle"></span>
+            </div>
+            <div class="cell mbox-body">
+                <p id="mboxBody"></p>
+            </div>
+            <div class="cell mbox-footer">
+                <button class="btn" id="dismiss">
+                    Dismiss
+                </button>
+            </div>
+        </div>
+
+        <!-- our click catcher overlay -->
+        <div id="overlay"></div>
+
+        <!-- start of content -->
+        <div class="wrapper">
+            <!-- our input calendar generation toolbox -->
+            <div class="grid flow-vert toolbox">
+                <div class="cell">
+                    <span class="title">
+                        Calendar Generator
+                    </span>
+                </div>
+                <div class="cell">
+                    <span>Start Year:</span>
+                    <input type="number" id="startYear" min=1000 value=2000 />
+                </div>
+                <div class="cell">
+                    <span>End Year:</span>
+                    <input type="number" id="endYear" min=1001 value=2020 />
+                </div>
+                <div class="cell">
+                    <button class="btn" id="generate">
+                        Create Calendar
+                    </button>
+                </div>
+            </div>
+
+            <!-- the calendar wrapper -->
+            <div class="grid flow-vert" id="calendar">
+            </div>
+        </div>
+    </body>
+</html>

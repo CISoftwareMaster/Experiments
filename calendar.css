@@ -1,0 +1,221 @@
+*
+{
+    font-family: "Helvetica Neue";
+    outline: none;
+}
+
+body
+{
+    background: #DFDFDF;
+}
+
+.toolbox input
+{
+    border: none;
+    background: rgba(230, 230, 230, 0.35);
+}
+
+#messageBox
+{
+    left: 50%;
+    max-width: 30em;
+    min-width: 10em;
+    top: 50%;
+    height: auto;
+    box-shadow: 0 0 32px rgba(0, 0, 0, 0.15);
+    z-index: 11;
+
+    /* centre it */
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+#overlay
+{
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 10;
+}
+
+#overlay, #messageBox
+{
+    position: fixed;
+    transition: -webkit-transform .25s,
+                transform .25s,
+                opacity .25s;
+}
+
+.mbox-header, .btn
+{
+    color: #FFF;
+}
+
+.mbox-header, .mbox-body, .mbox-footer, .grid, .month-header, .year-header
+{
+    width: 100%;
+}
+
+.mbox-header
+{
+    background: #F36;
+    border: 1px solid #24D;
+}
+
+.mbox-body
+{
+    margin-top: -.25em !important;
+    font-weight: normal;
+}
+
+.mbox-footer
+{
+    justify-content: -webkit-flex-end;
+    justify-content: flex-end;
+}
+
+#messageBox, .toolbox
+{
+    background: rgb(245, 245, 245, 0.9);
+    border: 1px solid #DDD;
+}
+
+.toolbox
+{
+    top: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    justify-content: center;
+
+    /* Background blur for Apple devices and other supported browsers */
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+}
+
+.title, .mbox-header, .month-header, .year-header
+{
+    font-weight: bold;
+}
+
+.wrapper
+{
+    width: 900px;
+    margin: 0 auto;
+    background: #FFF;
+}
+
+.btn
+{
+    border: 1px solid #DDD;
+    background: #F34;
+    transition: background .25s;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn:hover
+{
+    background: #F23;
+}
+
+.btn, .cell input
+{
+    padding: .5em 1em;
+}
+
+.grid, .grid .cell, .toolbox, .mbox-footer, #messageBox
+{
+    display: -webkit-flex;
+    display: flex;
+}
+
+.grid .cell, .toolbox
+{
+    align-items: center;
+}
+
+.grid .cell, #messageBox .cell
+{
+    padding: .5em .5em;
+}
+
+.grid .cell, .grid .cell *
+{
+    margin-right: .25em;
+    margin-top: .25em;
+}
+
+.flow-hor
+{
+    -webkit-flex-flow: row nowrap !important;
+    flex-flow: row nowrap !import;
+}
+
+.flow-vert
+{
+    -webkit-flex-flow: row wrap;
+    flex-flow: row wrap;
+}
+
+.month-divider
+{
+    max-width: 30em;
+    min-width: 10em;
+    -webkit-flex-basis: 15em;
+    -webkit-flex-grow: 1;
+    flex-basis: 15em;
+    flex-grow: 1;
+    align-self: flex-start;
+}
+
+.month-header, .year-header, .title
+{
+    color: #F45;
+}
+
+.month-header
+{
+    font-size: 1.5em;
+}
+
+.year-header
+{
+    justify-content: center;
+    font-size: 2em;
+    border-bottom: 1px solid #F45;
+}
+
+.month-bg:nth-child(2n)
+{
+    background: rgb(245, 245, 245);
+}
+
+.day-cell
+{
+    border: 1px solid #DDD;
+}
+
+@media screen and (max-width: 900px)
+{
+    .wrapper
+    {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: 445px)
+{
+    .toolbox
+    {
+        height: 3em;
+        overflow: hidden;
+        transition: height .25s;
+    }
+
+    .toolbox:hover
+    {
+        height: 15em;
+    }
+}
