@@ -78,7 +78,7 @@ body
 
 #messageBox, .toolbox
 {
-    background: rgb(245, 245, 245, 0.9);
+    background: rgba(245, 245, 245, 0.9);
     border: 1px solid #DDD;
 }
 
