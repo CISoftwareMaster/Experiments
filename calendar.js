@@ -10,7 +10,7 @@ window.onload = function(e)
     var overlay = document.getElementById("overlay");
 
     // a list containing our month names
-    month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
+    month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     // leap year check function
     function is_leap(year)
@@ -83,8 +83,10 @@ window.onload = function(e)
         // check if a Calendar DOM already exists
         if (document.getElementById("calendarDOM"))
         {
+            var tref = document.getElementById("calendarDOM");
             // delete it
-            calwrap.removeChild(document.getElementById("calendarDOM"));
+            calwrap.removeChild(tref);
+            delete tref;
         }
 
         // get our input variables
@@ -103,6 +105,9 @@ window.onload = function(e)
         // reference to our Calendar DOM node
         var calendar = document.createElement("div");
         calendar.setAttribute("id", "calendarDOM");
+
+        // get our current date
+        var date = new Date();
 
         // generate our calendar
         for (var year = start_date; year <= end_date; ++ year)
@@ -127,6 +132,7 @@ window.onload = function(e)
                 month_wrapper.classList.add("cell");
                 month_wrapper.classList.add("month-divider");
                 month_wrapper.classList.add("month-bg");
+                month_wrapper.classList.add("centred");
 
                 var month_grid = document.createElement("div");
                 month_grid.classList.add("grid");
@@ -168,6 +174,15 @@ window.onload = function(e)
 
                     // format our day string, so that (d < 0) would be 0X
                     day_element.innerText = (day < 10 ? `0${day}` : day);
+
+                    // if this day is our current date, add a marker to it
+                    if ((month == date.getMonth() &&
+                        (day == date.getDate()) &&
+                        (year == (1900 + date.getYear()))))
+                    {
+                        day_element.classList.add("today");
+                    }
+
                     week_wrapper.appendChild(day_element);
                 }
 

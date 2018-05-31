@@ -4,6 +4,13 @@
     outline: none;
 }
 
+.wrapper
+{
+    width: 1024px;
+    margin: 0 auto;
+    background: #FFF;
+}
+
 body
 {
     background: #DFDFDF;
@@ -61,7 +68,7 @@ body
 .mbox-header
 {
     background: #F36;
-    border: 1px solid #24D;
+    border: 1px solid #D24;
 }
 
 .mbox-body
@@ -79,7 +86,11 @@ body
 #messageBox, .toolbox
 {
     background: rgba(245, 245, 245, 0.9);
-    border: 1px solid #DDD;
+}
+
+.toolbox, .year-header
+{
+    justify-content: center;
 }
 
 .toolbox
@@ -87,7 +98,7 @@ body
     top: 0;
     position: -webkit-sticky;
     position: sticky;
-    justify-content: center;
+    border: 1px solid #DDD;
 
     /* Background blur for Apple devices and other supported browsers */
     -webkit-backdrop-filter: blur(5px);
@@ -97,13 +108,6 @@ body
 .title, .mbox-header, .month-header, .year-header
 {
     font-weight: bold;
-}
-
-.wrapper
-{
-    width: 900px;
-    margin: 0 auto;
-    background: #FFF;
 }
 
 .btn
@@ -182,22 +186,23 @@ body
 
 .year-header
 {
-    justify-content: center;
     font-size: 2em;
     border-bottom: 1px solid #F45;
 }
 
 .month-bg:nth-child(2n)
 {
-    background: rgb(245, 245, 245);
+    background: rgb(255, 250, 250);
 }
 
-.day-cell
+.today
 {
-    border: 1px solid #DDD;
+    background: #F23;
+    color: #FFF;
+    border-radius: 128px;
 }
 
-@media screen and (max-width: 900px)
+@media screen and (max-width: 1024px)
 {
     .wrapper
     {
